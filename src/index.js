@@ -92,7 +92,7 @@ function Avatar(props) {
 class NameForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {value: ''};
+        this.state = {value: 'Opalo'};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -103,7 +103,7 @@ class NameForm extends React.Component {
     }
 
     handleSubmit(event) {
-        alert('A name was submitted ' + this.state.value);
+        alert('An user was added to account: ' + this.state.value);
         event.preventDefault();
     }
 
@@ -111,10 +111,27 @@ class NameForm extends React.Component {
         return (
 
             <form onSubmit={this.handleSubmit}>
-                <label>Name:
-                <input type="text" value={this.state.value} onChange={this.handleChange} />
-                </label>
-                <input type="submit" value="Submit" />
+                <div className="container">
+                    <div className="form-container">
+                        <div className="form-header">
+                            {/* Mental Note: Change this state to props / its a value that never changes */}
+                            <h1><label>Account: {this.state.value} </label></h1>
+                        </div>
+                        <div className="form-body">
+
+                            <div className="form-label"><span>1</span>Full name & Lastname</div>
+                            <div className="inner-wrap">
+                                <label className="label">Full Name: <input type="text" id="name"/></label>
+                                <label className="label">LastName: <input type="text" id="lname"/></label>
+                            </div>
+                            <div className="form-label"><span>2</span>Worker Business ID</div>
+                            <div className="inner-wrap">
+                                <label className="label">Business ID: <input type="text" id="id"/></label>
+                            </div>
+                            <input type="submit" value="Submit" className="btn-submit" />
+                        </div>
+                    </div>
+                </div>
             </form>
             
         );
