@@ -87,9 +87,9 @@ function Avatar(props) {
 }
 
 /* ////////////////////////////////////////////// */
-/* Form example */
+/* Form Add - example */
 
-class NameForm extends React.Component {
+class AddForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {value: 'Opalo'};
@@ -108,17 +108,15 @@ class NameForm extends React.Component {
     }
 
     render() {
-        return (
-
-            <form onSubmit={this.handleSubmit}>
-                <div className="container">
+        return (    
+            <div className="container">
+                <form onSubmit={this.handleSubmit}>
                     <div className="form-container">
                         <div className="form-header">
                             {/* Mental Note: Change this state to props / its a value that never changes */}
                             <h1><label>Account: {this.state.value} </label></h1>
                         </div>
                         <div className="form-body">
-
                             <div className="form-label"><span>1</span>Full name & Lastname</div>
                             <div className="inner-wrap">
                                 <label className="label">Full Name: <input type="text" id="name"/></label>
@@ -131,8 +129,49 @@ class NameForm extends React.Component {
                             <input type="submit" value="Submit" className="btn-submit" />
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>   
+        );
+    }
+}
+
+/* /////////////////////////////////// */
+/* Form Get - example */
+
+function ListEmployee(props) {
+    return <li>{props.value}</li>
+}
+
+class GetForm extends React.Component {
+    constructor(props) {
+        super(props);
+        const emplooyeName = this.props.name;
+        const employeeLastName = this.props.lastname;
+        const employeeCategory = this.props.category;
+
+        this.state = {value: ''}
+    };
+
+    render() {
+        return (
+            <div className="container">
+                <form action="">
+                    <div className="form-header">
+                        <h1>Employees: </h1>
+                    </div>
+                    <div className="form-body">
+                        <div className="inner-wrap">
+                            <label className="label" id="name">{this.props.name}</label>
+                        </div>
+                        <div className="inner-wrap">
+                            <label className="label" id="lastName">{this.props.lastname}</label>
+                        </div>
+                        <div className="inner-wrap">
+                            <label className="label" id="category">{this.props.category}</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
             
         );
     }
@@ -235,13 +274,23 @@ function App() {
                 </div>
 
                 <div>
-                    <NameForm />                    
+                    <AddForm />                    
+                </div>
+
+                <div>
+                    <GetForm />
                 </div>
             </div> 
 
         </div>       
     )
 }
+
+const Employees = [
+    {id: 1, category: 'SA', name: 'Manuel', lastname: 'da Costa'},
+    {id: 2, category: 'SA', name: 'Pedro', lastname: 'Perez'},
+    {id: 3, category: 'SA', name: 'Elizabeth', lastname: 'Gonzales'},
+];
 
 /*  pay carefull atention where <App /> is.
     that's the element to view/show and then the container
