@@ -2,155 +2,233 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-/* 
-1 - Display the location for each move in the format (col, row) in the move history list.
-2 - Bold the currently selected item in the move list.
-3 - Rewrite Board to use two loops to make the squares instead of hardcoding them.
-4 - Add a toggle button that lets you sort the moves in either ascending or descending order.
-5 - When someone wins, highlight the three squares that caused the win.
-6 - When no one wins, display a message about the result being a draw. */
+// ----------- Eaxmple 1 -----------
 
-function Square(props) {
+/* ReactDOM.render(
+    <h1>Hello, World!</h1>,
+    document.getElementById('root')
+); */
+
+// ----------- Example 2 -----------
+
+/* const name = 'Josh Perez';
+const element = <h1>Hello, {name}</h1>
+*/
+
+// ----------- Example 3 -----------
+
+/* function formatName(user) {
+    return user.firstName + ' ' + user.lastName;
+}
+
+const user = {
+    firstName: 'Harper',
+    lastName: 'Perez'
+};
+
+function tick() {
+    const element = (
+        <h1> Hello, {formatName(user)} and World!
+            <h2>It is {new Date().toLocaleTimeString()}.</h2>
+        </h1>
+
+    );
+    ReactDOM.render(element, document.getElementById('root'));
+}
+
+
+setInterval(tick, 1000); */
+
+/* ////////////////////////////////////////////// */
+ // ----------- Example 4 -----------
+
+ // React Component ?
+class Welcome extends React.Component {
+    render() {
+        return <h1>Hello, {this.props.name} </h1>
+    }
+}
+
+// User-defined component
+function Welcome2(props) {
+    return <h1>Hello, {props.name} </h1>
+}
+
+function formatDate(date) {
+    return date.toLocaleDateString();
+}
+
+/* ////////////////////////////////////////////// */
+// --------------- Comment Example  ---------------
+
+function Comment(props) {
     return (
-        <button className="square" onClick={ props.onClick }>
-            {props.value}
-        </button>
+        <div className="Comment">
+            <UserInfo user = {props.author} />
+            <div className="Comment-text"> {props.text} </div>
+            <div className="Comment-date"> {formatDate(props.date)} </div>
+        </div>
     );
 }
 
-function calculateWinner(squares) {
-    const lines = [
-        [0,1,2],
-        [3,4,5],
-        [6,7,8],
-        [0,3,6],
-        [1,4,7],
-        [2,5,8],
-        [0,4,8],
-        [2,4,6]
-    ];
-    for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
+function UserInfo(props) {
+    return (
+        <div className="UserInfo">
+            <Avatar user = {props.user} />
+            <div className="UserInfo-name"> {props.user.name} </div>
+        </div>
+    );
 }
 
-class Board extends React.Component {
-    renderSquare(i) {
-        return ( 
-            <Square 
-            value={this.props.squares[i]}
-            onClick={() => this.props.onClick(i)} 
-            />
-        );
-    }
-
-    render() {
-        return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
-        );
-    }
+function Avatar(props) {
+    return (
+        <img className="Avatar" src={props.user.avatarUrl} alt={props.user.name} />
+    );
 }
 
-class Game extends React.Component {
+/* ////////////////////////////////////////////// */
+/* Form example */
+
+class NameForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            history: [{
-                squares: Array(9).fill(null),
-            }],
-            stepNumber: 0,
-            xIsNext: true,
-        };
-    }
-    
-    jumpTo(step) {
-        this.setState({
-            stepNumber: step,
-            xIsNext: (step%2) === 0,
-        })
-    }    
+        this.state = {value: ''};
 
-    handleClick(i) {
-        const history = this.state.history.slice(0, this.state.stepNumber + 1);
-        const current = history[history.length - 1];
-        const squares = current.squares.slice();
-        
-        if (calculateWinner(squares) || squares[i]) {
-            return;
-        }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            history: history.concat([{
-                squares: squares,
-            }]),
-            stepNumber: history.length,
-            xIsNext: !this.state.xIsNext,
-        });
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event) {
+        alert('A name was submitted ' + this.state.value);
+        event.preventDefault();
     }
 
     render() {
-        const history = this.state.history;
-        const current = history[this.state.stepNumber];
-        const winner = calculateWinner(current.squares);
-
-        const moves = history.map( (step, move) => {
-            const desc = move ?
-                'Go to move #' + move :
-                'Go to game start';
-            return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
-            );
-        });
-
-        let status;
-        if (winner){
-            status = 'Winner: ' + winner;
-        } else {
-            status = 'Next player:' + (this.state.xIsNext ? 'X' : 'O');
-        }
-
         return (
-            <div className="game">
-                <div className="game-board">
-                    <Board 
-                    squares={current.squares}
-                    onClick={ (i) => this.handleClick(i) } />
-                </div>
-                <div className="game-info">
-                    <div> {status} </div>
-                    <ol> {moves} </ol>
-                </div>
-            </div>
+
+            <form onSubmit={this.handleSubmit}>
+                <label>Name:
+                <input type="text" value={this.state.value} onChange={this.handleChange} />
+                </label>
+                <input type="submit" value="Submit" />
+            </form>
+            
         );
     }
 }
 
+/* ////////////////////////////////////////////// */
 
-// ===========================================
+// --------------- Clock Example ---------------
 
-ReactDOM.render(
-    <Game />,
-    document.getElementById('root')
-)
+class Clock extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {date: new Date()};
+    }
+
+    // LifeCycle methods
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(),
+            1000
+        );
+
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    tick() {
+        this.setState({
+            date: new Date()
+        });
+    }
+
+
+    render() {
+        return  (
+            <div>
+                <h1> Time is: {this.state.date.toLocaleTimeString()} </h1>
+            </div>
+        );
+    }    
+}
+
+// Only neccesary if theres no function to send to document
+/* ReactDOM.render(
+    <Clock />, document.getElementById('root')
+); */
+
+/* ////////////////////////////////////////////// */
+
+
+const comment = {
+    date: new Date(),
+    text: 'I hope you enjoy learning React',
+    author: {
+        name: 'Opal',
+        avatarUrl: 'https://placekitten.com/g/64/64'
+    },
+};
+
+function App() {
+    return (
+        <div>
+
+            <div >
+                <ul className="navigation">
+                    <li><a href="http://localhost:3000/#">First</a></li>
+                    <li><a href="http://localhost:3000/#">Second</a></li>
+                    <li><a href="http://localhost:3000/#">Third</a></li>
+                </ul>
+            </div>
+
+            <div className="container">
+
+                <div className="flex-item">
+                    <Welcome name="Sara" />
+
+                </div>        
+
+                <div className="flex-item">
+                    <Welcome2 name="Manuel" />
+                </div>
+                
+                <div className="flex-item">
+                    <Clock />
+                </div>            
+
+                <div className="flex-item">
+                    <Comment date = { new Date() }  text = {"Test"} author = {''} />
+                </div>
+
+                <div className="flex-item">
+                    <Comment 
+                        date = {comment.date}
+                        text = {comment.text}
+                        author = {comment.author}
+                    />
+                </div>
+
+                <div>
+                    <NameForm />                    
+                </div>
+            </div> 
+
+        </div>       
+    )
+}
+
+/*  pay carefull atention where <App /> is.
+    that's the element to view/show and then the container
+    where is it going to show
+ */
+ReactDOM.render( <App />,  document.getElementById('root') );
+// ReactDOM.render( <Clock />, document.getElementById('root'));

@@ -1,11 +1,96 @@
 body {
+    padding: 0;
+    margin: 0;
     font: 14px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
 }
 
 ol, ul {
     padding-left: 30px;
 }
+
+/* centering */
+
+.container {
+    display: flex;
+    flex-flow: row wrap;
+
+    justify-content: space-around;
+}
+
+/* /////////////////////////////////// */
+/* Box-Items */
+
+.flex-item {
+    padding: 10px;
+    width: 150px;
+    height: 300px;
+    font-size: 1em;
+    text-align: center;
+}
+
+/* /////////////////////////////////// */
+/* navigation Tab */
+
+.navigation {
+    list-style: none;
+    margin: 0;
+
+    background: deepskyblue;
+
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+
+    -wekbit-flex-flow: row wrap;
+    justify-content: flex-end;
+}
+
+.navigation a {
+    text-decoration: none;
+    display: block;
+    padding: 1em;
+    color: white;
+}
+
+.navigation a:hover {
+    background: rgba(95, 94, 94, 0.575)
+}
+
+.navigation a {
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+}
+
+.navigation li:last-of-type a {
+    border-bottom: none;
+}
+
+@media all and (max-width: 800px) {
+    .navigation {
+        justify-content: space-around;
+    }
+}
+@media all and (max-width: 500px) {
+    .navigation {
+        -webkit-flex-flow: column wrap;
+        flex-flow: column wrap;
+        padding: 0;
+        /* flex-direction: column; */
+    }
+}
+
+/* /////////////////////////////////// */
+
+/* Form */
+
+
+
+/* /////////////////////////////////// */
 
 .board-row:after {
     clear: both;
