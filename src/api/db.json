@@ -1,0 +1,28 @@
+{
+  "employees": [
+    {
+      "name": "Alice",
+      "lastname": "da Costa",
+      "category": "SK",
+      "id": 4
+    },
+    {
+      "name": "Michael",
+      "lastname": "Doors",
+      "category": "SL",
+      "id": 6
+    },
+    {
+      "name": "Pedro",
+      "lastname": "Perez",
+      "category": "SA",
+      "id": 7
+    },
+    {
+      "name": "Manuel",
+      "lastname": "da Costa",
+      "category": "SA",
+      "id": 8
+    }
+  ]
+}
